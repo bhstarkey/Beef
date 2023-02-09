@@ -75,7 +75,7 @@ function buildCharts(sample) {
     
     // Deliverable 1: 5. Create a variable that holds the first sample in the array.
     var firstSample = selectedSample[0];
-    // console.log(firstSample);
+    console.log(firstSample);
 
     // Deliverable 3: 2. Create a variable that holds the first sample in the metadata array.
     var firstVolunteer = selectedVolunteer[0];
@@ -83,6 +83,7 @@ function buildCharts(sample) {
 
     // Deliverable 1: 6. Create variables that hold the otu_ids, otu_labels, and sample_values.
     var otuIDs = firstSample.otu_ids;
+    var tempIDs = firstSample.otu_ids;
     var otuLabels = firstSample.otu_labels;
     var otuValues = firstSample.sample_values;
 
@@ -98,9 +99,7 @@ function buildCharts(sample) {
     // Deliverable 1: 7. Create the yticks for the bar chart.
     // Hint: Get the the top 10 otu_ids and map them in descending order 
     // so the otu_ids with the most bacteria are last. 
-    var yticks = otuIDs.sort(function (b, a) {
-      return parseFloat(a) - parseFloat(b);
-    }).slice(0, 10).reverse().map(i => 'OTU ' + i);
+    let yticks = otuIDs.slice(0, 10).reverse().map(i => 'OTU ' + i);
     // console.log(topOtuIDs)
   
     // Slice the first 10 objects for plotting
@@ -111,9 +110,11 @@ function buildCharts(sample) {
     // var yticks = topOtuIDs.map(i => 'OTU ' + i);
     console.log(yticks)
 
+    let xticks = otuValues.slice(0, 10).reverse()
+
     // Deliverable 1: 8. Create the trace for the bar chart. 
     var barData = {
-      x: otuValues,
+      x: xticks,
       y: yticks,
       text: otuLabels,
       name: "Bacteria",
@@ -136,8 +137,10 @@ function buildCharts(sample) {
     Plotly.newPlot("bar", [barData], barLayout);
 
     // Deliverable 2: 1. Create the trace for the bubble chart.
+    console.log(tempIDs);
+    console.log(otuValues);
     let bubbleData = [{
-      x: otuIDs,
+      x: tempIDs,
       y: otuValues,
       text: otuLabels,
       mode: 'markers',
@@ -154,8 +157,8 @@ function buildCharts(sample) {
       xaxis: {
         title: 'OTU ID'
 
-    }
-  };
+        }
+      };
 
     // Deliverable 2: 3. Use Plotly to plot the data with the layout.
     Plotly.newPlot('bubble', bubbleData, bubbleLayout);
